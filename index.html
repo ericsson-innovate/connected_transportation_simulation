@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulation</title>
+    <script src="node_modules/timer.js/dist/timer.js"></script>
+    <script src="myscript.js"></script>
+</head>
+<body>
+
+</body>
+
+<script>
+
+    /**
+    * INIT: Prepare the bus for the journey.
+    * */
+    var init = function() {
+        console.log("Prepare the bus for the journey");
+
+        //INIT BUS DIAGNOSTICS
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/fuel_usage",
+            "data": {
+                "fuelUsage": 98
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/odometer",
+            "data": {
+                "odometer": 15032
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/front_left_tire_pressure",
+            "data": {
+                "frontLeftTirePressure": 100
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/front_right_tire_pressure",
+            "data": {
+                "frontRightTirePressure": 100
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/rear_left_tire_pressure",
+            "data": {
+                "rearLeftTirePressure": 100
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/rear_right_tire_pressure",
+            "data": {
+                "rearRightTirePressure": 100
+            }
+        });
+
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/oil_life",
+            "data": {
+                "oilLife": 20
+            }
+        });
+
+        //INIT BUS STATUS
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/vehicle_power_mode_state",
+            "data": {
+                "vehiclePowerMode": "idle"
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/head_lights_state",
+            "data": {
+                "lightsStatus": "off"
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/exterior_temperature",
+            "data": {
+                "temperature": 14
+            }
+        });
+
+        console.log("Set the interior temperature");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/interior_temperature",
+            "data": {
+                "temperature": 16
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/hazard_lights_state",
+            "data": {
+                "lightsStatus": "off"
+            }
+        });
+
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/passenger_door_lock_state",
+            "data":{
+                "lockState": "on"
+            }
+        });
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/rear_right_door_lock_state",
+            "data":{
+                "lockState": "on"
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/passenger_door_state",
+            "data":{
+                "doorState": "close"
+            }
+        });
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/rear_right_door_state",
+            "data":{
+                "doorState": "close"
+            }
+        });
+
+
+
+
+        //INIT BUS ROUTE
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_load",
+            "data": {
+                "busStopId": "1302",
+                "busStopLoad": 0
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_load",
+            "data": {
+                "busStopId": "6154",
+                "busStopLoad": 0
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_load",
+            "data": {
+                "busStopId": "6347",
+                "busStopLoad": 0
+            }
+        });
+
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_load",
+            "data": {
+                "busStopId": "6215",
+                "busStopLoad": 0
+            }
+        });
+
+
+
+        console.log("Start the bus on ROUTE 9031");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_route_id",
+            "data": {
+                "busRouteId": "9031"
+            }
+        });
+
+
+        console.log("Bus is at stop id 1302");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/current_bus_stop_id",
+            "data": {
+                "currentBusStopId": "1302"
+            }
+        });
+
+
+    }
+
+
+    var activateParkingBrake = function() {
+        console.log("Parking brakes are on");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/parking_brake",
+            "data": {
+                "status": "active"
+            }
+        });
+
+    }
+
+    var startEngine = function() {
+        console.log ("Start the engine");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/vehicle_power_mode_state",
+            "data": {
+                "vehiclePowerMode": "running"
+            }
+        });
+
+    }
+
+    var turnOnLights = function() {
+        console.log("Turn on the light");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/head_lights_state",
+            "data": {
+                "lightsStatus": "on"
+            }
+        });
+
+    }
+
+    var setVehicleTemperature = function() {
+        console.log("Set the exterior temperature");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/exterior_temperature",
+            "data": {
+                "temperature": 14
+            }
+        });
+
+        console.log("Set the interior temperature");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/interior_temperature",
+            "data": {
+                "temperature": 16
+            }
+        });
+    }
+
+
+    /**
+     * People are waiting at bus stop 1302
+     * */
+    var peopleAt1302 = function() {
+        console.log("3 People are showing up at stop 1302");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_load",
+            "data": {
+                "busStopId": "1302",
+                "busStopLoad": 3
+            }
+        });
+    }
+
+
+    var activateHazard = function() {
+        console.log("Activate the hazard lights");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/hazard_lights_state",
+            "data": {
+                "lightsStatus": "on"
+            }
+        });
+
+    }
+
+    var unlockDoors = function() {
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/passenger_door_lock_state",
+            "data":{
+                "lockState": "off"
+            }
+        });
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/rear_right_door_lock_state",
+            "data":{
+                "lockState": "off"
+            }
+        });
+
+    }
+    /**
+     *  Open the bus doors for passengers boarding
+     * */
+    var openDoors = function() {
+
+        console.log("The passenger and the rear right doors are open");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/passenger_door_state",
+            "data":{
+                "doorState": "open"
+            }
+        });
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/rear_right_door_state",
+            "data":{
+                "doorState": "open"
+            }
+        });
+    }
+
+
+    var peopleBoarding = function(stopId) {
+        console.log("People are boarding on the bus");//set the load to 0 at the current stop
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_load",
+            "data": {
+                "busStopId": stopId,
+                "busStopLoad": 0
+            }
+        });
+
+
+    }
+    /**
+     * Temperature inside the bus is rising...
+     * */
+    var riseTemperature = function() {
+        console.log("Interior temperature rises to 18°C");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/interior_temperature",
+            "data": {
+                "temperature": 18
+            }
+        });
+
+    }
+
+
+    /**
+     * People are waiting at bus stop 6154
+     * */
+    var peopleAt6154 = function() {
+        console.log("2 People are waiting at stop 6154");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_load",
+            "data": {
+                "busStopId": "6154",
+                "busStopLoad": 2
+            }
+        });
+
+    }
+
+
+    var closeDoors = function() {
+
+        console.log("Doors close");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/passenger_door_state",
+            "data":{
+                "doorState": "close"
+            }
+        });
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/rear_right_door_state",
+            "data":{
+                "doorState": "close"
+            }
+        });
+
+    }
+
+    var deactivateHazard = function() {
+        console.log("Deactivate the hazard lights");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/hazard_lights_state",
+            "data": {
+                "lightsStatus": "off"
+            }
+        });
+
+    }
+
+    var deactivateParkingBrake = function() {
+        console.log("Bus Driver puts off the parking brakes");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/parking_brake",
+            "data": {
+                "status": "inactive"
+            }
+        });
+
+    }
+    /**
+     * Start driving
+     * */
+    var busStartsDriving = function() {
+
+        console.log("Bus is leaving stop, status is 'not currently at stop'");//set the status currentlyAtBusStop = 0
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_status",
+            "data": {
+                "currentlyStoppedAtBusStop": 0
+            }
+        });
+
+    }
+
+
+    /**
+     * People are waiting at bus stop 6347
+     * */
+    var peopleAt6347 = function() {
+        console.log("5 People are waiting at stop 6347");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_load",
+            "data": {
+                "busStopId": "6347",
+                "busStopLoad": 5
+            }
+        });
+    }
+
+
+    /**
+     * Stopping at bus stop 6154
+     * */
+    var busAt6154 = function() {
+        console.log("Bus goes at stop 6154");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/current_bus_stop_id",
+            "data": {
+                "currentBusStopId": "6154"
+            }
+        });
+
+        console.log("and stops");//set the status currentlyAtBusStop = 1
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_status",
+            "data": {
+                "currentlyStoppedAtBusStop": 1
+            }
+        });
+
+
+
+        console.log("Passengers are boarding");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_load",
+            "data": {
+                "busStopId": "6154",
+                "busStopLoad": 0
+            }
+        });
+
+    }
+
+    /**
+     * Bus is stopping at bus stop 6347
+     * */
+    var busAt6347 = function() {
+        console.log("Bus goes at stop 6347");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/current_bus_stop_id",
+            "data": {
+                "currentBusStopId": "6347"
+            }
+        });
+
+        console.log("and stops");//set the status currentlyAtBusStop = 1
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_status",
+            "data": {
+                "currentlyStoppedAtBusStop": 1
+            }
+        });
+
+    }
+    /**
+     * X - Final destination arrived
+     */
+    var arrived = function() {
+        console.log("Arrived at stop 6215");
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/current_bus_stop_id",
+            "data": {
+                "currentBusStopId": "6215"
+            }
+        });
+
+        console.log("and stops");//set the status currentlyAtBusStop = 1
+        AJAX({
+            "type": "POST",
+            "url": "/luigi/v1/emulate/bus_stop_status",
+            "data": {
+                "currentlyStoppedAtBusStop": 1
+            }
+        });
+
+
+    }
+
+
+
+
+    var actions = [
+        {"name": "init", "time": 5} ,
+
+        {"name": "activateParkingBrake", "time": 2} ,
+        {"name": "startEngine", "time": 2} ,
+        {"name": "turnOnLights", "time": 2} ,
+        {"name": "setVehicleTemperature", "time": 3} ,
+
+        {"name": "peopleAt1302", "time": 2},
+
+        {"name": "activateHazard", "time": 2},
+        {"name": "unlockDoors", "time": 2},
+        {"name": "openDoors", "time":  2},
+        {"name": "riseTemperature", "time":  2},
+
+        {"name": "peopleBoarding", "argument": "1302", "time":  2},
+
+        {"name": "peopleAt6154", "time":  3},
+
+        {"name": "closeDoors", "time":  2},
+        {"name": "deactivateHazard", "time": 2},
+        {"name": "deactivateParkingBrake", "time": 2} ,
+
+        {"name": "busStartsDriving", "time":  5},
+
+        {"name": "peopleAt6347", "time":  3},
+
+        {"name": "busAt6154", "time": 4},
+        {"name": "activateParkingBrake", "time": 2} ,
+        {"name": "openDoors", "time":  2},
+
+        {"name": "peopleBoarding", "argument": "6154", "time":  2},
+
+        {"name": "busStartsDriving", "time":  10},
+
+        {"name": "busAt6347", "time": 6},
+        {"name": "activateParkingBrake", "time": 2} ,
+        {"name": "openDoors", "time":  2},
+        {"name": "peopleBoarding", "argument": "6347", "time":  2},
+
+
+
+        {"name": "busStartsDriving", "time":  10},
+
+        {"name": "arrived", "time": 2}
+    ];
+
+    var currentActionIndex = 0;
+
+    var timer = new Timer({
+        tick : 1,
+        ontick : function (sec) {
+
+        },
+        onstart : function() {
+        }
+    });
+
+    /**
+     * Execute the next action
+     * @param action
+     */
+    var nextAction = function() {
+        timer.start(actions[currentActionIndex]['time']).on("end");
+
+        console.log("NEXT ACTION ", actions[currentActionIndex]);
+        if (actions[currentActionIndex]['argument'] != undefined ){
+            window[actions[currentActionIndex]['name']](actions[currentActionIndex]['argument']);
+        }
+        else {
+            window[actions[currentActionIndex]['name']]();
+
+        }
+        currentActionIndex++;
+    }
+
+
+
+
+    timer.on('end', function () {
+
+        if (currentActionIndex < actions.length) {
+            nextAction();
+        }
+    });
+
+    timer.start(1);
+
+</script>
+</html>
