@@ -5,13 +5,46 @@
     <title>Simulation</title>
     <script src="node_modules/timer.js/dist/timer.js"></script>
     <script src="myscript.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,900,700' rel='stylesheet' type='text/css'>
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
+<div class="">
+    <div id="wrapper">
+        <div id="primary">
+            <p></p>
+        </div>
 
+        <div id="content">
+            <p class="animation">Starting animation...</p>
+        </div>
+
+        <div id="secondary">
+            <button id="next" class="grow"></button>
+        </div>
+    </div>
+</div>
 </body>
 
 <script>
+    $( document ).ready( function() {
+        currentActionIndex = 0;
+        $("#next").click(function() {
+            console.log("Clicking next...");
+            console.log("NEXT ACTION ", actions[currentActionIndex]);
+            if (actions[currentActionIndex]['argument'] != undefined ){
+                window[actions[currentActionIndex]['name']](actions[currentActionIndex]['argument']);
+            }
+            else {
+                window[actions[currentActionIndex]['name']]();
 
+            }
+            $(".animation").html(actions[currentActionIndex]['name']);
+            currentActionIndex++;
+
+        })
+    } );
     /**
     * INIT: Prepare the bus for the journey.
     * */
@@ -581,9 +614,9 @@
 
         {"name": "peopleBoarding", "argument": "6154", "time":  2},
 
-        {"name": "busStartsDriving", "time":  10},
+        {"name": "busStartsDriving", "time":  3},
 
-        {"name": "busAt6347", "time": 6},
+        {"name": "busAt6347", "time": 2},
         {"name": "activateParkingBrake", "time": 2} ,
         {"name": "openDoors", "time":  2},
         {"name": "peopleBoarding", "argument": "6347", "time":  2},
@@ -634,7 +667,7 @@
         }
     });
 
-    timer.start(1);
+    //timer.start(1);
 
 </script>
 </html>
